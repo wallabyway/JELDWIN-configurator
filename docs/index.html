@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="#" />
+
+    <title>JELDWIN configurator</title>
+
+    <!-- Required Stylesheets -->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/style.min.css?v=3.3" type="text/css">
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap@next/dist/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css"/>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css">
+
+    <!-- Vue.js + Bootstrap -->
+    <script src="https://unpkg.com/vue@2.5.3/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+  </head>
+
+  <body onload="app.init();" style="margin:0">
+    <!-- Our application root element -->
+    <div id="forgeViewer" ></div>
+
+<div id="app">
+
+<nav class="navbar-dark bd-navbar navbar navbar-expand-md">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="/docs" class="nav-link active" target="_self">Aurora Door</a></li>
+      </ul>
+</nav>
+
+<div class="sidebar">
+
+  <b-tabs>
+    <b-tab title="&#xE901;" active>
+<b-list-group v-for="item in Items" :key="item.MarkupID">
+  <b-list-group-item button>
+    <input type="checkbox" v-model="item.completed" @change="cardClick(item)"> {{item.DisplayName}} ({{item.sqrfoot}} ft&sup2;)
+    <b-button size="sm" class="float-right close" @click="removeItem(item.MarkupID)">&times;</b-button>
+  </b-list-group-item>
+</b-list-group>
+      <h6 class="float-right col-md-7">Total: {{totalSqrFeet}} ft&sup2;</h6>
+
+
+
+    </b-tab>
+    <b-tab title="&#xE903;">
+      <h6>Approval #2</h6>
+    </b-tab>
+
+    <b-tab title="&#xE904;" >
+      <h6>Editor</h6>
+    </b-tab>
+    <b-tab title="&#xE900;" >
+      <h6>DWG Versions</h6>
+      2D/3D
+    </b-tab>
+  </b-tabs>
+  </div>
+</div>
+</body>
+
+
+<script src="app.js"></script>
+
+<!-- viewer -->
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/three.js?v=v3.3"></script>
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.js?v=v3.3"></script>
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/wgs.js?v=v3.3"></script>
+</html>
