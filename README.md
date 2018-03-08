@@ -6,7 +6,8 @@ LMV-DEMO: [github.io/JELDWIN-configurator](https://wallabyway.github.io/JELDWIN-
 
 ![](jeldwen-configurator.jpg)
 
-
+### Zoomed in view
+![](zoomin.jpg)
 
 
 ### Geometry combo's:

@@ -2,7 +2,7 @@ var viewer;
 var markup;
 var DBURL = 'http://localhost:3000';
 
-window.devicePixelRatio=4;
+window.devicePixelRatio=3;
 
 // Vue.js components
 window.app = new Vue({
