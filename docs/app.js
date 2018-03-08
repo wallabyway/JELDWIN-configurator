@@ -2,7 +2,7 @@ var viewer;
 var markup;
 var DBURL = 'http://localhost:3000';
 
-window.devicePixelRatio=3;
+window.devicePixelRatio=4;
 
 // Vue.js components
 window.app = new Vue({
@@ -36,8 +36,9 @@ window.app = new Vue({
       viewer.impl.renderer().setAOOptions(30.0,0.8);
       viewer.setGroundReflection(false);
       viewer.impl.toggleShadows(true);
-      viewer.impl.setShadowLightDirection(new THREE.Vector3(-30,30,10));
+      viewer.impl.setShadowLightDirection(new THREE.Vector3(30,30,10));
       viewer.setBackgroundColor(180,220,255,255,255,255);
+      viewer.impl.renderer().setAOEnabled(true);
     },
 
     initializeViewer: function(self) {
