@@ -1,15 +1,16 @@
 /* styles.css */
 
 body { font-family: 'Lato', sans-serif; font-size: 80%}
-#app {position:fixed; z-index: 2; right:0; width:250px; height:100%;}
+#app {position:fixed; z-index: 2; right:0; width:350px; height:100%;}
 .bd-navbar {background-color: #444444;}
-.sidebar {position:absolute; width:250px; height:93%; background-color:#eee; overflow-y:scroll; border-right: solid 1px lightgray;}
+.sidebar {position:absolute; width:350px; height:93%; background-color:#eee; overflow-y:scroll; border-right: solid 1px lightgray;}
 .adsk-viewing-viewer {width:79%;right:0;}
 #forgeViewer {z-index:-1;}
 ::-webkit-scrollbar { 
     display: none; 
 }
 
+#panel {width:350px;}
 #msg {
     left: 270px;
     top: 15px;

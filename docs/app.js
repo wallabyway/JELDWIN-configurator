@@ -2,13 +2,13 @@ var viewer;
 var markup;
 var DBURL = 'http://localhost:3000';
 
-window.devicePixelRatio=2.5;
+window.devicePixelRatio=3;
 
 // Vue.js components
 window.app = new Vue({
   el: "#app",
   data: {
-    homeViewState: {"seedURN":"svf/AuroraDoor/Design.svf","objectSet":[{"id":[],"isolated":[],"hidden":[],"explodeScale":0,"idType":"lmv"}],"viewport":{"name":"","eye":[923.956192394088,-161.47604876734601,2642.3544244910104],"target":[0.0000010000002248489182,0.0051879882811078915,-8.06173062324524],"up":[0.01890679169974891,0.9983491804042026,0.05423511052703323],"worldUpVector":[0,1,2.560839e-16],"pivotPoint":[9.999999974752427e-7,0.00518798828125,-8.06173062324524],"distanceToOrbit":2811.490179376451,"aspectRatio":1.8694481830417227,"projection":"perspective","isOrthographic":false,"fieldOfView":50.9748570702278},"renderOptions":{"environment":"Warm Light","ambientOcclusion":{"enabled":true,"radius":70,"intensity":0.8},"toneMap":{"method":1,"exposure":-9,"lightMultiplier":-1e-20},"appearance":{"ghostHidden":false,"ambientShadow":false,"antiAliasing":true,"progressiveDisplay":false,"swapBlackAndWhite":false,"displayLines":true,"displayPoints":false}},"cutplanes":[]},
+    homeViewState: {"seedURN":"svf/AuroraDoor/Design.svf","objectSet":[{"id":[],"isolated":[],"hidden":[],"explodeScale":0,"idType":"lmv"}],"viewport":{"name":"","eye":[923.956192394088,-161.47604876734601,2642.3544244910104],"target":[0.0000010000002248489182,0.0051879882811078915,-8.06173062324524],"up":[0.01890679169974891,0.9983491804042026,0.05423511052703323],"worldUpVector":[0,1,2.560839e-16],"pivotPoint":[9.999999974752427e-7,0.00518798828125,-8.06173062324524],"distanceToOrbit":2811.490179376451,"aspectRatio":1.8694481830417227,"projection":"perspective","isOrthographic":false,"fieldOfView":50.9748570702278},"renderOptions":{"environment":"Warm Light","ambientOcclusion":{"enabled":true,"radius":70,"intensity":0.8},"toneMap":{"method":1,"exposure":-9,"lightMultiplier":-1e-20},"appearance":{"ghostHidden":true,"ambientShadow":true,"antiAliasing":true,"progressiveDisplay":false,"swapBlackAndWhite":false,"displayLines":true,"displayPoints":false}},"cutplanes":[]},
     selected: [ ],
     styleIcon: {
       backgroundPosition:0,
@@ -31,8 +31,9 @@ window.app = new Vue({
     },
 
     onSuccess: function() {
-      viewer.impl.resize(window.innerWidth-250, window.innerHeight);
-      viewer.restoreState(this.homeViewState); 
+      viewer.impl.resize(window.innerWidth-350, window.innerHeight);
+      viewer.restoreState(this.homeViewState, null, false); 
+      viewer.impl.renderer().setAOOptions(60.0,0.8);
       viewer.setGroundReflection(false);
       viewer.impl.toggleShadows(true);
       viewer.impl.setShadowLightDirection(new THREE.Vector3(-10,10,10));
