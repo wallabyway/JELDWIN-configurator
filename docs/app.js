@@ -33,15 +33,15 @@ window.app = new Vue({
     onSuccess: function() {
       viewer.impl.resize(window.innerWidth-350, window.innerHeight);
       viewer.restoreState(this.homeViewState, null, false); 
-      viewer.impl.renderer().setAOOptions(60.0,0.8);
+      viewer.impl.renderer().setAOOptions(30.0,0.8);
       viewer.setGroundReflection(false);
       viewer.impl.toggleShadows(true);
-      viewer.impl.setShadowLightDirection(new THREE.Vector3(-10,10,10));
+      viewer.impl.setShadowLightDirection(new THREE.Vector3(-30,30,10));
       viewer.setBackgroundColor(180,220,255,255,255,255);
     },
 
     initializeViewer: function(self) {
-      // avp.ENABLE_DEBUG=true
+       avp.ENABLE_DEBUG=true
 
       // headless
       viewer = new Autodesk.Viewing.Viewer3D(document.getElementById('forgeViewer'), {});
