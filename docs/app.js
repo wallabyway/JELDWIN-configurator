@@ -8,7 +8,7 @@ window.devicePixelRatio=4;
 window.app = new Vue({
   el: "#app",
   data: {
-    homeViewState: {"seedURN":"svf/AuroraDoor/Design.svf","objectSet":[{"id":[],"isolated":[],"hidden":[],"explodeScale":0,"idType":"lmv"}],"viewport":{"name":"","eye":[923.956192394088,-161.47604876734601,2642.3544244910104],"target":[0.0000010000002248489182,0.0051879882811078915,-8.06173062324524],"up":[0.01890679169974891,0.9983491804042026,0.05423511052703323],"worldUpVector":[0,1,2.560839e-16],"pivotPoint":[9.999999974752427e-7,0.00518798828125,-8.06173062324524],"distanceToOrbit":2811.490179376451,"aspectRatio":1.8694481830417227,"projection":"perspective","isOrthographic":false,"fieldOfView":50.9748570702278},"renderOptions":{"environment":"Warm Light","ambientOcclusion":{"enabled":true,"radius":70,"intensity":0.8},"toneMap":{"method":1,"exposure":-9,"lightMultiplier":-1e-20},"appearance":{"ghostHidden":true,"ambientShadow":true,"antiAliasing":true,"progressiveDisplay":false,"swapBlackAndWhite":false,"displayLines":true,"displayPoints":false}},"cutplanes":[]},
+    homeViewState: {objectSet":[{"id":[],"isolated":[],"hidden":[],"explodeScale":0,"idType":"lmv"}],"viewport":{"name":"","eye":[923.956192394088,-161.47604876734601,2642.3544244910104],"target":[0.0000010000002248489182,0.0051879882811078915,-8.06173062324524],"up":[0.01890679169974891,0.9983491804042026,0.05423511052703323],"worldUpVector":[0,1,2.560839e-16],"pivotPoint":[9.999999974752427e-7,0.00518798828125,-8.06173062324524],"distanceToOrbit":2811.490179376451,"aspectRatio":1.8694481830417227,"projection":"perspective","isOrthographic":false,"fieldOfView":50.9748570702278},"renderOptions":{"environment":"Warm Light","ambientOcclusion":{"enabled":true,"radius":70,"intensity":0.8},"toneMap":{"method":1,"exposure":-9,"lightMultiplier":-1e-20},"appearance":{"ghostHidden":true,"ambientShadow":true,"antiAliasing":true,"progressiveDisplay":false,"swapBlackAndWhite":false,"displayLines":true,"displayPoints":false}}},
     selected: [ ],
     styleIcon: {
       backgroundPosition:0,
@@ -38,7 +38,8 @@ window.app = new Vue({
       viewer.impl.toggleShadows(true);
       viewer.impl.setShadowLightDirection(new THREE.Vector3(30,30,10));
       viewer.setBackgroundColor(180,220,255,255,255,255);
-      viewer.impl.renderer().setAOEnabled(true);
+      //viewer.impl.renderer().setAOEnabled(true);
+      viewer.impl.setOptimizeNavigation(true);
     },
 
     initializeViewer: function(self) {
