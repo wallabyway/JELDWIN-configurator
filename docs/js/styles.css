@@ -11,6 +11,7 @@ button.active{ border: 2px solid #ca0; }
 .sidebar {z-index:1; height:100%; position:fixed; right:0px; width:360px; background-color:#fff; border-left: solid 1px lightgray;}
 
 .viewbar {	position: fixed; bottom: -50px; left: 100px; border: 1px solid #ddd; border-radius: 25px; margin-bottom:60px;}
+.viewbar button { border-radius:25px; height:25px;}
 
 .colorbar button{
 	width:30px;
