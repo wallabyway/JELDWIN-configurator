@@ -1,42 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>JELDWIN configurator</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="shortcut icon" href="#" />
-    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/style.min.css?v=3.3" type="text/css">
-    <link rel="stylesheet" href="styles.css" type="text/css">
-  </head>
-
-<body onload="app.init();" style="margin:0">
-
-
-<!-- Forge Viewer -->
-  <div id="forgeViewer" ></div>
-
-<!-- Sidebar -->
-  <div id="app" class="sidebar">
-      <ul> 
-      <li><button v-for="item,i in modellist" v-bind:class="{ active: (model==i) }" @click="setModel(i)">{{i}}</button></li>
-      <li><button v-for="item,i in grilllist" v-bind:class="{ active: (grill==i) }"@click="setGrill(i)">{{item}}</button></li>
-      <li><button v-for="item,i in colorlist" v-bind:class="{ active: (color==i) }"@click="setColor(i)">{{item}}</button></li>
-      <li style="position: fixed; bottom: 25px; left: 260px;"><button v-for="item,i in viewlist" v-bind:class="{ active: (viewstate==i) }"@click="setView(i)">{{i}}</button></li>
-      </ul>
-      <img id="panel" src="options.png" style="width:100%">
-  </div>
+<body style="margin:5 70 0 70;">
+<img src="header.png" style="width:780px">
+<iframe src="viewer.html" style="border:1px solid #eee; margin:0;width:780px;height:70%;padding:0px"></iframe>
 </body>
-
-
-<script src="vue.min.js"></script>
-<script src="app.js"></script>
-<script src="material.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" type="text/css">
-
-<!-- viewer -->
-  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/three.js?v=v3.3"></script>
-  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/viewer3D.js?v=v3.3"></script>
-  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/wgs.js?v=v3.3"></script>
-</html>

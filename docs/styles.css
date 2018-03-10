@@ -2,10 +2,11 @@
 
 body { font-family: 'Lato', sans-serif; font-size: 11px}
 
-ul {position:fixed; right:110px; top:40px; list-style-type: none;}
-li {border: 1px solid #ddd; margin-bottom:60px;}
-button { border: 2px solid #fff; height:40px}
-button:hover{ border: 2px solid #ca0; }
-button.active{ border: 2px solid red; }
+ul {position:fixed; right:65px; top:40px; list-style-type: none;}
+li {margin-bottom:60px;}
+.viewtab {position: fixed; bottom: -50px; left: 100px; border: 1px solid #ddd; margin-bottom:60px;}
+button { outline: 0; border: 2px solid #fff; height:40px;}
+button:hover{ border: 2px solid #eee; }
+button.active{ border: 2px solid #ca0; }
 
-.sidebar {z-index:1; height:100%; position:fixed; right:0px; width:360px; background-color:#eee; border-left: solid 1px lightgray;}
+.sidebar {z-index:1; height:100%; position:fixed; right:0px; width:360px; background-color:#fff; border-left: solid 1px lightgray;}
