@@ -2,7 +2,7 @@
 var _material = {};
 
 function initMaterial() {
-    viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, onSelectedCallback);
+    //viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, onSelectedCallback);
     //_material = new THREE.MeshPhongMaterial( { color: 0x704000, side:THREE.DoubleSide, shininess:30.0, specular:1, transparent: false, opacity: 1 } );
     //_material = new THREE.MeshBasicMaterial({ side:THREE.FrontSide, color: 0x704000 });
     //viewer.impl.matman().addMaterial( 'paint', _material, true);
