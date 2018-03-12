@@ -20,10 +20,10 @@
 <!-- Sidebar -->
   <div id="app" class="sidebar">
     <ul> 
-      <li><button v-for="item,i in interiorList" v-bind:class="{ active: (interior==i) }" @click="setInterior(i)">{{i}}</button></li>
+      <li><button v-for="item,i in interiorList" class="interiorbar" v-bind:class="{ active: (interior==i) }" @click="setInterior(i)"/></li>
       <li><button v-for="item,i in grillList" class="grillbar" v-bind:style="{ backgroundPosition: -i*48 + 'px 0px' }"  v-bind:class="{active: grill==i}" @click="setGrill(i)"/></li>
       <li class="colorbar"><button v-for="item,i in colorList" v-bind:class="{active: color==i}" v-bind:style="{ backgroundColor: item }" @click="setColor(i)"/></li>
-      <li class="viewbar"><button v-for="item,i in viewlist" v-bind:class="{ active: (viewstate==i) }"@click="setView(i)">&#9864;</button></li>
+      <li class="viewbar"><button v-for="item,i in viewlist" v-bind:class="{ active: (viewstate==i) }"@click="setView(i);mousemoved=true;">&#9864;</button></li>
       </ul>
       <img id="panel" src="img/options.png" style="width:100%">
   </div>
