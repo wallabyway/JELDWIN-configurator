@@ -129,6 +129,7 @@ window.app = new Vue({
       viewer.impl.setShadowLightDirection(new THREE.Vector3(-30,120,30));  //-30,130,-30));
       initMaterial();
       viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, this.onGeometryLoaded);
+      window.addEventListener("resize", this.onResize);
     },
 
     initializeViewer: function(self) {
