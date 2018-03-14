@@ -10,6 +10,7 @@ window.app = new Vue({
     mousemoved:false,
     interior:0,
     grill:0,
+    grillcolor:0,
     color:0,
     viewstate:0,
     interiorList: [0,1],
@@ -17,6 +18,7 @@ window.app = new Vue({
     paintIds: ["P007406-005","P007448-012", "P007550", "P003174", "P004351", "P004358", "P004396", "P004397", "P004354", "P004398"],
     grillList: ["W4500SDLwithShadowBar-32","none","W4500SDLwithShadowBar-31","W4500SDLwithShadowBar-30"],
     colorList: ["#F0E6C3","#0B3328","#2E180D","#6B2112","#00497F","#050304","#FFFFFF"],
+    colorGrillList: ["#0B3328","#2E180D","#6B2112","#F0E6C3","#050304","#FFFFFF"],
     // get view state from console
     // v=viewer.getState();delete(v.seedURN);delete(v.objectSet);delete(v.renderOptions);delete(v.cutplanes);JSON.stringify(v)
     interiorViewList: [
@@ -46,38 +48,57 @@ window.app = new Vue({
     },
 
     setInterior(i) { this.interior=i; this.viewstate=0; this.setView(0) },
-    setGrill(i) { this.grill=i; this.hide("W4500SDL"); this.hide( this.grillList[i], true); },
-    setColor(i) { this.color=i; this.paint(this.color) },
+    setGrill(i) { this.grill=i; this.hide("W4500SDL"); this.show( this.grillList[i]); },
     setView(i) { this.viewstate=i; viewer.restoreState(this.viewlist[i]); },
 
-    paint: function(color) {
-      const fl = viewer.model.getFragmentList();
-      var material = this.materials["wood"];
-      material.opaque_albedo.set(this.colorList[color]);
-      this.frags.map(fragId => fl.setMaterial(fragId, material) );
+    setGrillColor: function(colorIndex) { 
+      this.grillcolor=colorIndex;
+      const matmgr = viewer.impl.matman();
+      var material = matmgr._materials["model:1|mat:grill"];
+      material.metal_f0.set(this.colorGrillList[colorIndex]);
       viewer.impl.invalidate(true);
     },
 
-    initPaint: function(nodeNames) {
-      // prepare materials and fragments to be painted
+    setWoodColor: function(colorIndex) {
+      this.color=colorIndex;
       const matmgr = viewer.impl.matman();
-      const it = viewer.model.getData().instanceTree;
-      const fl = viewer.model.getFragmentList();
+      var material = matmgr._materials["model:1|mat:wood"];
+      material.opaque_albedo.set(this.colorList[colorIndex]);
+      viewer.impl.invalidate(true);
+    },
 
-      // create material: Prism-093 Red Plastic
-      let mat = {userassets : ["0"]};
-      mat.materials = {"0":{"tag":"Prism-093","definition":"PrismOpaque","transparent":false,"keywords":["Paint","Glossy","materials","opaque"],"categories":["Paint/Glossy","Default"],"properties":{"strings":{"AssetLibID":{"values":["BA5EE55E-9982-449B-9D66-9F036540E140"]},"BaseSchema":{"values":["PrismOpaqueSchema"]},"UIName":{"values":["Prism-093"]},"category":{"values":["Paint/Glossy","Default"]},"description":{"values":["Paint - enamel red glossy"]},"keyword":{"values":["Paint","Glossy","materials","opaque"]},"opaque_albedo_urn":{"values":[]},"opaque_f0_urn":{"values":[]},"opaque_luminance_modifier_urn":{"values":[]},"opaque_mfp_modifier_urn":{"values":[]},"surface_albedo_urn":{"values":[]},"surface_anisotropy_urn":{"values":[]},"surface_cutout_urn":{"values":[]},"surface_normal_urn":{"values":[]},"surface_rotation_urn":{"values":[]},"surface_roughness_urn":{"values":[]},"swatch":{"values":["Swatch-Torus"]}},"uris":{"thumbnail":{"values":["Mats/PrismOpaque/Presets/t_Prism-093.png"]}},"booleans":{"Hidden":{"values":[false]},"opaque_emission":{"values":[false]},"opaque_translucency":{"values":[false]}},"integers":{"interior_model":{"values":[0]},"revision":{"values":[1]},"version":{"values":[1]}},"scalars":{"opaque_f0":{"units":"","values":[0.06027]},"opaque_luminance":{"units":"","values":[0]},"opaque_mfp":{"units":"mm","values":[0.5]},"surface_anisotropy":{"units":"","values":[0]},"surface_rotation":{"units":"","values":[0]},"surface_roughness":{"units":"","values":[0.07746]}},"colors":{"opaque_albedo":{"values":[{"r":0.767376,"g":0.205984,"b":0.151704,"a":1}]},"opaque_luminance_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"opaque_mfp_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"surface_albedo":{"values":[{"r":1,"g":1,"b":1,"a":1}]}},"textures":{"surface_cutout":{},"surface_normal":{}},"choicelists":{"surface_ndf_type":{"values":[1]}},"uuids":{"ExchangeGUID":{"values":[""]},"VersionGUID":{"values":["Prism-093"]}},"references":{}}}}
-      matmgr.convertOneMaterial(viewer.model, mat, "wood");
-      this.materials["wood"] = matmgr._materials["model:1|mat:wood"]; //this is not needed in LMV v4.0, but shadows break
+    initFrags: function(materialName) {
+      // this should be initialized all at once at the beginning
+      const matmgr = viewer.impl.matman();
+      const fl = viewer.model.getFragmentList();
+      var material = matmgr._materials["model:1|mat:" + materialName];
+      var fragIds = this.frags[materialName];
+      fragIds.map(fragId => fl.setMaterial(fragId, material) );
+    },
+
+    initPaint: function(nodeNames, materialName, szPrism) {
+      // prepare materials and fragments to be painted
+      // input: nodeNames = material set names to search,  materialName = key, szPrism = json prism definition 
+
+      // create wood frame material: Prism-093 Red Plastic
+      let mat = {userassets : ["0"], materials : szPrism};
+      viewer.impl.matman().convertOneMaterial(viewer.model, mat, materialName);
 
       // create a fast list of fragIds to change their material - see frags.
-      this.frags = [];
+      this.frags[materialName] = [];
+      const it = viewer.model.getData().instanceTree;
       nodeNames.map( nodeName => 
         viewer.model.search( nodeName, dbIds=> 
           dbIds.map( dbId => 
             it.enumNodeFragments(dbId, 
-              fragId => this.frags.push(fragId), true)
+              fragId => this.frags[materialName].push(fragId), true)
       )));
+
+      setTimeout(i=>this.initFrags(materialName),1000 ); //search takes a while
+    },
+
+    show: function(nodeName) {
+      this.hide(nodeName, true);
     },
 
     hide: function(nodeName, doShow) {
@@ -93,7 +114,9 @@ window.app = new Vue({
     onGeometryLoaded: function() {
       this.hide("4500IGAssy"); // hide crazy glass
       this.setGrill(0);
-      this.initPaint(this.paintIds);
+      this.frags = {};
+      this.initPaint(this.paintIds, "wood", {"0":{"tag":"Prism-093","definition":"PrismOpaque","transparent":false,"keywords":["Paint","Glossy","materials","opaque"],"categories":["Paint/Glossy","Default"],"properties":{"strings":{"AssetLibID":{"values":["BA5EE55E-9982-449B-9D66-9F036540E140"]},"BaseSchema":{"values":["PrismOpaqueSchema"]},"UIName":{"values":["Prism-093"]},"category":{"values":["Paint/Glossy","Default"]},"description":{"values":["Paint - enamel red glossy"]},"keyword":{"values":["Paint","Glossy","materials","opaque"]},"opaque_albedo_urn":{"values":[]},"opaque_f0_urn":{"values":[]},"opaque_luminance_modifier_urn":{"values":[]},"opaque_mfp_modifier_urn":{"values":[]},"surface_albedo_urn":{"values":[]},"surface_anisotropy_urn":{"values":[]},"surface_cutout_urn":{"values":[]},"surface_normal_urn":{"values":[]},"surface_rotation_urn":{"values":[]},"surface_roughness_urn":{"values":[]},"swatch":{"values":["Swatch-Torus"]}},"uris":{"thumbnail":{"values":["Mats/PrismOpaque/Presets/t_Prism-093.png"]}},"booleans":{"Hidden":{"values":[false]},"opaque_emission":{"values":[false]},"opaque_translucency":{"values":[false]}},"integers":{"interior_model":{"values":[0]},"revision":{"values":[1]},"version":{"values":[1]}},"scalars":{"opaque_f0":{"units":"","values":[0.06027]},"opaque_luminance":{"units":"","values":[0]},"opaque_mfp":{"units":"mm","values":[0.5]},"surface_anisotropy":{"units":"","values":[0]},"surface_rotation":{"units":"","values":[0]},"surface_roughness":{"units":"","values":[0.07746]}},"colors":{"opaque_albedo":{"values":[{"r":0.767376,"g":0.205984,"b":0.151704,"a":1}]},"opaque_luminance_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"opaque_mfp_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"surface_albedo":{"values":[{"r":1,"g":1,"b":1,"a":1}]}},"textures":{"surface_cutout":{},"surface_normal":{}},"choicelists":{"surface_ndf_type":{"values":[1]}},"uuids":{"ExchangeGUID":{"values":[""]},"VersionGUID":{"values":["Prism-093"]}},"references":{}}}} );
+      this.initPaint(this.grillList, "grill", {"0":{"tag":"Prism-027","definition":"PrismMetal","transparent":false,"keywords":["Metal","Aluminum","materials","metal"],"categories":["Metal/Aluminum","Default"],"properties":{"strings":{"AssetLibID":{"values":["BA5EE55E-9982-449B-9D66-9F036540E140"]},"BaseSchema":{"values":["PrismMetalSchema"]},"UIName":{"values":["Prism-027"]},"category":{"values":["Metal/Aluminum","Default"]},"description":{"values":["Aluminum - polished"]},"keyword":{"values":["Metal","Aluminum","materials","metal"]},"metal_f0_urn":{"values":[]},"surface_albedo_urn":{"values":[]},"surface_anisotropy_urn":{"values":[]},"surface_cutout_urn":{"values":[]},"surface_normal_urn":{"values":[]},"surface_rotation_urn":{"values":[]},"surface_roughness_urn":{"values":[]},"swatch":{"values":["Swatch-Torus"]}},"uris":{"thumbnail":{"values":["Mats/PrismMetal/Presets/t_Prism-027.png"]}},"booleans":{"Hidden":{"values":[false]}},"integers":{"interior_model":{"values":[1]},"revision":{"values":[1]},"version":{"values":[1]}},"scalars":{"surface_anisotropy":{"units":"","values":[0]},"surface_rotation":{"units":"","values":[0]},"surface_roughness":{"units":"","values":[0.07746]}},"colors":{"metal_f0":{"values":[{"r":0.959822,"g":0.96226,"b":0.965052,"a":1}]},"surface_albedo":{"values":[{"r":1,"g":1,"b":1,"a":1}]}},"textures":{"surface_cutout":{},"surface_normal":{}},"choicelists":{"surface_ndf_type":{"values":[1]}},"uuids":{"ExchangeGUID":{"values":[""]},"VersionGUID":{"values":["Prism-027"]}},"references":{}}}} );
       // flip between view states
       viewer.canvas.addEventListener('mousedown',(e => 
         this.mousemoved=true) );
@@ -118,7 +141,6 @@ window.app = new Vue({
       viewer.setBackgroundColor(180,220,255,255,255,255);
       viewer.impl.toggleShadows(true);
       viewer.impl.setShadowLightDirection(new THREE.Vector3(-30,120,30));  //-30,130,-30));
-      initMaterial();
       viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, this.onGeometryLoaded);
       window.addEventListener("resize", this.onResize);
     },
