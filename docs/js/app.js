@@ -1,10 +1,7 @@
 var viewer;
-var markup;
-var DBURL = 'http://localhost:3000';
 
 window.devicePixelRatio=2;
-
-Vue.config.devtools = true;
+//Vue.config.devtools = true;
 
 // Vue.js components
 window.app = new Vue({
@@ -55,31 +52,25 @@ window.app = new Vue({
 
     paint: function(color) {
       const fl = viewer.model.getFragmentList();
-      var material = this.materials[this.colorList[color]];
+      var material = this.materials["wood"];
+      material.opaque_albedo.set(this.colorList[color]);
       this.frags.map(fragId => fl.setMaterial(fragId, material) );
       viewer.impl.invalidate(true);
     },
 
     initPaint: function(nodeNames) {
       // prepare materials and fragments to be painted
-
-      //create fast list of THREE material objects
-      this.colorList.map(color => {
-        //this.materials[color] = new THREE.MeshBasicMaterial({ side:THREE.FrontSide, color: color });
-          this.materials[color] = new THREE.MeshPhongMaterial({
-          specular: new THREE.Color(color),
-          side: THREE.FrontSide,
-          reflectivity: 0,
-          shininess:0,
-          envMap:null,
-          color:color
-        });
-        viewer.impl.matman().addMaterial( 'paint'+color, this.materials[color], true);
-      })
-
-      // create a fast list of fragIds to change their material - see frags.
+      const matmgr = viewer.impl.matman();
       const it = viewer.model.getData().instanceTree;
       const fl = viewer.model.getFragmentList();
+
+      // create material: Prism-093 Red Plastic
+      let mat = {userassets : ["0"]};
+      mat.materials = {"0":{"tag":"Prism-093","definition":"PrismOpaque","transparent":false,"keywords":["Paint","Glossy","materials","opaque"],"categories":["Paint/Glossy","Default"],"properties":{"strings":{"AssetLibID":{"values":["BA5EE55E-9982-449B-9D66-9F036540E140"]},"BaseSchema":{"values":["PrismOpaqueSchema"]},"UIName":{"values":["Prism-093"]},"category":{"values":["Paint/Glossy","Default"]},"description":{"values":["Paint - enamel red glossy"]},"keyword":{"values":["Paint","Glossy","materials","opaque"]},"opaque_albedo_urn":{"values":[]},"opaque_f0_urn":{"values":[]},"opaque_luminance_modifier_urn":{"values":[]},"opaque_mfp_modifier_urn":{"values":[]},"surface_albedo_urn":{"values":[]},"surface_anisotropy_urn":{"values":[]},"surface_cutout_urn":{"values":[]},"surface_normal_urn":{"values":[]},"surface_rotation_urn":{"values":[]},"surface_roughness_urn":{"values":[]},"swatch":{"values":["Swatch-Torus"]}},"uris":{"thumbnail":{"values":["Mats/PrismOpaque/Presets/t_Prism-093.png"]}},"booleans":{"Hidden":{"values":[false]},"opaque_emission":{"values":[false]},"opaque_translucency":{"values":[false]}},"integers":{"interior_model":{"values":[0]},"revision":{"values":[1]},"version":{"values":[1]}},"scalars":{"opaque_f0":{"units":"","values":[0.06027]},"opaque_luminance":{"units":"","values":[0]},"opaque_mfp":{"units":"mm","values":[0.5]},"surface_anisotropy":{"units":"","values":[0]},"surface_rotation":{"units":"","values":[0]},"surface_roughness":{"units":"","values":[0.07746]}},"colors":{"opaque_albedo":{"values":[{"r":0.767376,"g":0.205984,"b":0.151704,"a":1}]},"opaque_luminance_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"opaque_mfp_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"surface_albedo":{"values":[{"r":1,"g":1,"b":1,"a":1}]}},"textures":{"surface_cutout":{},"surface_normal":{}},"choicelists":{"surface_ndf_type":{"values":[1]}},"uuids":{"ExchangeGUID":{"values":[""]},"VersionGUID":{"values":["Prism-093"]}},"references":{}}}}
+      matmgr.convertOneMaterial(viewer.model, mat, "wood");
+      this.materials["wood"] = matmgr._materials["model:1|mat:wood"]; //this is not needed in LMV v4.0, but shadows break
+
+      // create a fast list of fragIds to change their material - see frags.
       this.frags = [];
       nodeNames.map( nodeName => 
         viewer.model.search( nodeName, dbIds=> 
@@ -108,13 +99,13 @@ window.app = new Vue({
         this.mousemoved=true) );
       viewer.canvas.addEventListener('mousewheel',(e => 
         this.mousemoved=true) );
-      setInterval(e=> {
+      /*setInterval(e=> {
         if (this.mousemoved) {
           this.mousemoved = false; 
           return;
         }
         this.viewstate++; this.viewstate%=this.viewlist.length; this.setView(this.viewstate);
-      },8000 );
+      },8000 );*/
     },
 
     onSuccess: function() {
