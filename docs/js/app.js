@@ -17,7 +17,7 @@ window.app = new Vue({
     materials: [],
     paintIds: ["P007406-005","P007448-012", "P007550", "P003174", "P004351", "P004358", "P004396", "P004397", "P004354", "P004398"],
     grillList: ["W4500SDLwithShadowBar-32","none","W4500SDLwithShadowBar-31","W4500SDLwithShadowBar-30"],
-    colorList: ["#F0E6C3","#0B3328","#2E180D","#6B2112","#00497F","#050304","#FFFFFF"],
+    colorList: ["#E0B693","#0B3328","#2E180D","#6B2112","#00497F","#050304","#FFFFFF"],
     colorGrillList: ["#0B3328","#2E180D","#6B2112","#F0E6C3","#050304","#FFFFFF"],
     // get view state from console
     // v=viewer.getState();delete(v.seedURN);delete(v.objectSet);delete(v.renderOptions);delete(v.cutplanes);JSON.stringify(v)
@@ -94,7 +94,7 @@ window.app = new Vue({
               fragId => this.frags[materialName].push(fragId), true)
       )));
 
-      setTimeout(i=>this.initFrags(materialName),1000 ); //search takes a while
+      setTimeout(i=>this.initFrags(materialName),200 ); //search takes a while
     },
 
     show: function(nodeName) {
@@ -117,18 +117,14 @@ window.app = new Vue({
       this.frags = {};
       this.initPaint(this.paintIds, "wood", {"0":{"tag":"Prism-093","definition":"PrismOpaque","transparent":false,"keywords":["Paint","Glossy","materials","opaque"],"categories":["Paint/Glossy","Default"],"properties":{"strings":{"AssetLibID":{"values":["BA5EE55E-9982-449B-9D66-9F036540E140"]},"BaseSchema":{"values":["PrismOpaqueSchema"]},"UIName":{"values":["Prism-093"]},"category":{"values":["Paint/Glossy","Default"]},"description":{"values":["Paint - enamel red glossy"]},"keyword":{"values":["Paint","Glossy","materials","opaque"]},"opaque_albedo_urn":{"values":[]},"opaque_f0_urn":{"values":[]},"opaque_luminance_modifier_urn":{"values":[]},"opaque_mfp_modifier_urn":{"values":[]},"surface_albedo_urn":{"values":[]},"surface_anisotropy_urn":{"values":[]},"surface_cutout_urn":{"values":[]},"surface_normal_urn":{"values":[]},"surface_rotation_urn":{"values":[]},"surface_roughness_urn":{"values":[]},"swatch":{"values":["Swatch-Torus"]}},"uris":{"thumbnail":{"values":["Mats/PrismOpaque/Presets/t_Prism-093.png"]}},"booleans":{"Hidden":{"values":[false]},"opaque_emission":{"values":[false]},"opaque_translucency":{"values":[false]}},"integers":{"interior_model":{"values":[0]},"revision":{"values":[1]},"version":{"values":[1]}},"scalars":{"opaque_f0":{"units":"","values":[0.06027]},"opaque_luminance":{"units":"","values":[0]},"opaque_mfp":{"units":"mm","values":[0.5]},"surface_anisotropy":{"units":"","values":[0]},"surface_rotation":{"units":"","values":[0]},"surface_roughness":{"units":"","values":[0.07746]}},"colors":{"opaque_albedo":{"values":[{"r":0.767376,"g":0.205984,"b":0.151704,"a":1}]},"opaque_luminance_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"opaque_mfp_modifier":{"values":[{"r":1,"g":1,"b":1,"a":1}]},"surface_albedo":{"values":[{"r":1,"g":1,"b":1,"a":1}]}},"textures":{"surface_cutout":{},"surface_normal":{}},"choicelists":{"surface_ndf_type":{"values":[1]}},"uuids":{"ExchangeGUID":{"values":[""]},"VersionGUID":{"values":["Prism-093"]}},"references":{}}}} );
       this.initPaint(this.grillList, "grill", {"0":{"tag":"Prism-027","definition":"PrismMetal","transparent":false,"keywords":["Metal","Aluminum","materials","metal"],"categories":["Metal/Aluminum","Default"],"properties":{"strings":{"AssetLibID":{"values":["BA5EE55E-9982-449B-9D66-9F036540E140"]},"BaseSchema":{"values":["PrismMetalSchema"]},"UIName":{"values":["Prism-027"]},"category":{"values":["Metal/Aluminum","Default"]},"description":{"values":["Aluminum - polished"]},"keyword":{"values":["Metal","Aluminum","materials","metal"]},"metal_f0_urn":{"values":[]},"surface_albedo_urn":{"values":[]},"surface_anisotropy_urn":{"values":[]},"surface_cutout_urn":{"values":[]},"surface_normal_urn":{"values":[]},"surface_rotation_urn":{"values":[]},"surface_roughness_urn":{"values":[]},"swatch":{"values":["Swatch-Torus"]}},"uris":{"thumbnail":{"values":["Mats/PrismMetal/Presets/t_Prism-027.png"]}},"booleans":{"Hidden":{"values":[false]}},"integers":{"interior_model":{"values":[1]},"revision":{"values":[1]},"version":{"values":[1]}},"scalars":{"surface_anisotropy":{"units":"","values":[0]},"surface_rotation":{"units":"","values":[0]},"surface_roughness":{"units":"","values":[0.07746]}},"colors":{"metal_f0":{"values":[{"r":0.959822,"g":0.96226,"b":0.965052,"a":1}]},"surface_albedo":{"values":[{"r":1,"g":1,"b":1,"a":1}]}},"textures":{"surface_cutout":{},"surface_normal":{}},"choicelists":{"surface_ndf_type":{"values":[1]}},"uuids":{"ExchangeGUID":{"values":[""]},"VersionGUID":{"values":["Prism-027"]}},"references":{}}}} );
-      // flip between view states
-      viewer.canvas.addEventListener('mousedown',(e => 
-        this.mousemoved=true) );
-      viewer.canvas.addEventListener('mousewheel',(e => 
-        this.mousemoved=true) );
-      /*setInterval(e=> {
-        if (this.mousemoved) {
-          this.mousemoved = false; 
-          return;
-        }
+
+      // if user is idle, then flip between different interior/exterior camera views every 12 seconds.
+      setInterval(e=> {
+        if (this.mousemoved) { this.mousemoved = false; return;  }
         this.viewstate++; this.viewstate%=this.viewlist.length; this.setView(this.viewstate);
-      },8000 );*/
+      },12000 );
+      viewer.canvas.addEventListener('mousedown',(e => this.mousemoved=true) );
+      viewer.canvas.addEventListener('mousewheel',(e => this.mousemoved=true) );
     },
 
     onSuccess: function() {
@@ -140,7 +136,7 @@ window.app = new Vue({
       this.setView(0);
       viewer.setBackgroundColor(180,220,255,255,255,255);
       viewer.impl.toggleShadows(true);
-      viewer.impl.setShadowLightDirection(new THREE.Vector3(-30,120,30));  //-30,130,-30));
+      viewer.impl.setShadowLightDirection(new THREE.Vector3(-30,120,-30));  //-30,130,-30));
       viewer.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, this.onGeometryLoaded);
       window.addEventListener("resize", this.onResize);
     },
