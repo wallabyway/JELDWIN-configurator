@@ -14,6 +14,21 @@ DEMO: [github.io/JELDWIN-configurator](https://wallabyway.github.io/JELDWIN-conf
 </p>
 -- 
 
+### Debug mode
+
+I’ve added a ‘debug mode’ switch that turns on the lighting debugging.
+
+Just add ‘#debug’ to the end of the viewer.html, like this…
+
+[https://wallabyway.github.io/JELDWIN-configurator/viewer.html#debug](https://wallabyway.github.io/JELDWIN-configurator/viewer.html#debug)
+
+
+<img src="shot-debug.jpg" width="700">
+
+
+The toolbar will appear with a Utah-Teapot icon.  Click on this, and use the UI to adjust AO, environment, etc, etc.
+
+
 ### Combo's
 
 ##### Geometry

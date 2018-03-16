@@ -198,9 +198,11 @@ window.app = new Vue({
 
     initializeViewer: function(self) {
       // headless
-      // avp.ENABLE_DEBUG=true
-      //viewer = new Autodesk.Viewing.Private.GuiViewer3D(document.getElementById('forgeViewer'), {});
-      viewer = new Autodesk.Viewing.Viewer3D(document.getElementById('forgeViewer'), {});
+      if (window.location.hash == "#debug") {
+        avp.ENABLE_DEBUG=true
+        viewer = new Autodesk.Viewing.Private.GuiViewer3D(document.getElementById('forgeViewer'), {});
+      } else 
+        viewer = new Autodesk.Viewing.Viewer3D(document.getElementById('forgeViewer'), {});
       var options = {
           env: "Local",
           useADP: false,
