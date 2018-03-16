@@ -1,6 +1,6 @@
 var viewer;
 
-//window.devicePixelRatio=4;
+window.devicePixelRatio=3;
 //Vue.config.devtools = true;
 
 // Vue.js components

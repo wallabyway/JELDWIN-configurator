@@ -4,8 +4,15 @@
 DEMO: [github.io/JELDWIN-configurator](https://wallabyway.github.io/JELDWIN-configurator/) 
 
 
-![](jeldwin-anim.gif)
+<img src="jeldwin-anim.gif" width="590">
 
+-- 
+
+<img src="shot1.jpg" width="360">
+<img src="shot2.jpg" width="360">
+<img src="shot3.jpg" width="360">
+
+-- 
 
 ### Combo's
 

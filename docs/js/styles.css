@@ -2,7 +2,7 @@
 
 body { font-family: sans-serif; font-size: 11px}
 
-ul {position:fixed; right:118px; top:33px; list-style-type: none;}
+ul {position:fixed; right:118px; top:31px; list-style-type: none;}
 li {margin-bottom:16px;}
 button { outline: 0; border: 2px solid #fff0; height:38px; background-color:transparent;}
 button:hover{ border: 2px solid #eee; }
