@@ -31,9 +31,9 @@ window.app = new Vue({
     // selector-toolbars for interior/exterior view, wood-texture-list, grill-color-list, metal-frame-color and glass-texture-list  
     interiorList: [0,1],
     woodList: [
+      {rgb:"#c0a000", texture:"Jeld-Wen_light"},
       {rgb:"#705000", texture:"Jeld-Wen_Alder"}, 
-      {rgb:"#6B2112", texture:"1_mats_wood_mahogany"},
-      {rgb:"#c0a000", texture:"Jeld-Wen_light"}],
+      {rgb:"#6B2112", texture:"1_mats_wood_mahogany"}],
     grillColorList: ["#050304","#F3FAF3"],
     frameColorList: ["#F0E6C3","#0B3328","#2E180D","#6B2112"],
     glassColorList: [      
@@ -169,8 +169,8 @@ window.app = new Vue({
 
     onGeometryLoaded: function() {
       this.hide(this.glass_SelectionSet[0]); // hide glass to start with
-      this.setGrill(0);
-      this.setWoodColor("Jeld-Wen_Alder");
+      this.setGrill(3);
+      this.setWoodColor("Jeld-Wen_light");
 
       // if user is idle, then flip between different interior/exterior camera views every 12 seconds.
       viewer.canvas.addEventListener('mousedown',(e => this.mousemoved=true) );
