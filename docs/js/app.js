@@ -178,7 +178,7 @@ window.app = new Vue({
       setInterval(e=> {
         if (this.mousemoved) { this.mousemoved = false; return;  }
         this.viewstate++; this.viewstate%=this.cameraViewList.length; this.setView(this.viewstate);
-      }, 26000 );
+      }, 7000 );
     },
 
     onSuccess: function() {
