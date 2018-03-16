@@ -7,11 +7,11 @@ DEMO: [github.io/JELDWIN-configurator](https://wallabyway.github.io/JELDWIN-conf
 <img src="jeldwin-anim.gif" width="590">
 
 -- 
-
+<p>
 <img src="shot1.jpg" width="360">
 <img src="shot2.jpg" width="360">
 <img src="shot3.jpg" width="360">
-
+</p>
 -- 
 
 ### Combo's
