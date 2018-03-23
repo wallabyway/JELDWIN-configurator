@@ -189,7 +189,7 @@ window.app = new Vue({
       viewer.impl.toggleProgressive(false);
       viewer.impl.setOptimizeNavigation(true);
       viewer.impl.disableHighlight(true);
-      viewer.impl..disableSelection(true);
+      viewer.impl.disableSelection(true);
       this.setView(0);
       viewer.setBackgroundColor(180,220,255,255,255,255);
       //viewer.impl.toggleShadows(true);
